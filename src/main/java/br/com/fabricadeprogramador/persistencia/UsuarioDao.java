@@ -2,6 +2,9 @@ package br.com.fabricadeprogramador.persistencia;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.fabricadeprogramador.entidades.Usuario;
 
@@ -53,5 +56,60 @@ public class UsuarioDao {
 		}
 		
 	}
-
+	public void salvar(Usuario usu){
+		//Aplicando uma condiçao para saber que tipo de solicitaçao está chegando
+		//se id existir no banco == alterar() se nao existir salvar()
+		if(usu.getId()!=null){
+			alterar(usu);
+		}
+		else{
+			cadastrar(usu);
+		}
+			
+	}
+	public Usuario buscarPorId(Integer id){
+		String sql = "select*from usuario where id=?";
+		try (PreparedStatement pst = con.prepareStatement(sql)){
+			pst.setInt(1,id);
+			ResultSet res  = pst.executeQuery();
+			//Posicionand
+			res.next();
+			//verificando se p res chegara vazio
+			if(res.next()){
+				Usuario usu = new Usuario();
+				usu.setId(res.getInt("id"));
+				usu.setNome(res.getString("nome"));
+				usu.setLogin(res.getString("login"));
+				usu.setSenha(res.getString("senha"));	
+				return usu	;
+				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+	public List<Usuario> buscarTodos(){
+		String sql = "select*from usuario";
+		List<Usuario>lista = new ArrayList<Usuario>();
+		try (PreparedStatement pst = con.prepareStatement(sql)){
+			
+			ResultSet res  = pst.executeQuery();
+			//Posicionand
+			res.next();
+			//verificando se p res chegara vazio
+			while(res.next()){
+				Usuario usu = new Usuario();
+				usu.setId(res.getInt("id"));
+				usu.setNome(res.getString("nome"));
+				usu.setLogin(res.getString("login"));
+				usu.setSenha(res.getString("senha"));	
+				lista.add(usu);
+				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
 }

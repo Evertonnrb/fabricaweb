@@ -1,5 +1,7 @@
 package br.com.fabricadeprogramador;
 
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import br.com.fabricadeprogramador.entidades.Usuario;
@@ -9,7 +11,9 @@ public class TestUsuarioDAO {
 	public static void main(String[] args) {
 		// testCadastrar();
 		//testAlterar();
-		testExcluir();
+		//testExcluir();
+		//testSalvar();
+		testBuscarPorId();
 	}
 
 	public static void testCadastrar() {
@@ -45,5 +49,30 @@ public class TestUsuarioDAO {
 		UsuarioDao usuDao = new UsuarioDao();
 		usuDao.excluir(usu);
 		JOptionPane.showMessageDialog(null, "Ususario excluído com sucesso");
+	}
+	public static void testSalvar(){
+		Usuario usu = new Usuario();
+		usu.setId(3);
+		usu.setNome("Rita cadilac");
+		usu.setLogin("carro");
+		usu.setSenha("@123");
+		UsuarioDao usuDao = new UsuarioDao();
+		usuDao.salvar(usu);
+		JOptionPane.showMessageDialog(null, "Usúario salvo com sucesso");
+	}
+	public static void testBuscarPorId(){
+		UsuarioDao usuDao = new UsuarioDao();
+		Usuario usuario = usuDao.buscarPorId(2);
+		JOptionPane.showMessageDialog(null, usuario);
+		System.out.println(usuario);
+	}
+	public static void testBuscarTodos(){
+		UsuarioDao usuDao = new UsuarioDao();
+		List<Usuario> lista = usuDao.buscarTodos();
+		for (Usuario u: lista) {
+			JOptionPane.showMessageDialog(null, usuDao);
+			System.out.println();
+		}
+		
 	}
 }

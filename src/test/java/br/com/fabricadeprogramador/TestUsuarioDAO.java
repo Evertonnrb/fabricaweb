@@ -13,7 +13,20 @@ public class TestUsuarioDAO {
 		//testAlterar();
 		//testExcluir();
 		//testSalvar();
-		testBuscarPorId();
+		//testBuscarPorId();
+		//testBuscarTodos();
+		testAutenticar();
+	}
+
+	private static void testAutenticar() {
+		//Teste para verificar o usuario e senha
+		UsuarioDao usuDao = new UsuarioDao();
+		
+		Usuario usu = new Usuario();
+		usu.setLogin("carro");
+		usu.setSenha("@123");
+		Usuario usuRetorno = usuDao.autenticar(usu);
+		System.out.println(usuRetorno);
 	}
 
 	public static void testCadastrar() {
@@ -70,8 +83,8 @@ public class TestUsuarioDAO {
 		UsuarioDao usuDao = new UsuarioDao();
 		List<Usuario> lista = usuDao.buscarTodos();
 		for (Usuario u: lista) {
-			JOptionPane.showMessageDialog(null, usuDao);
-			System.out.println();
+			JOptionPane.showMessageDialog(null,lista);
+			System.out.println(lista.toString());
 		}
 		
 	}

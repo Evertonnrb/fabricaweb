@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import br.com.fabricadeprogramador.entidades.Usuario;
 
 public class UsuarioDao {
@@ -96,7 +98,7 @@ public class UsuarioDao {
 			
 			ResultSet res  = pst.executeQuery();
 			//Posicionand
-			res.next();
+			//res.next();
 			//verificando se p res chegara vazio
 			while(res.next()){
 				Usuario usu = new Usuario();
@@ -106,6 +108,26 @@ public class UsuarioDao {
 				usu.setSenha(res.getString("senha"));	
 				lista.add(usu);
 				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return lista;
+	}
+	public Usuario autenticar(Usuario usuConsulta){
+		String sql = "select*from usuario where id=? and senha=?";
+		try (PreparedStatement pst = con.prepareStatement(sql)){
+			pst.setString(1, usuConsulta.getLogin());
+			pst.setString(2,usuConsulta.getSenha());
+			ResultSet res = pst.executeQuery();
+			
+			if(res.next()){
+			Usuario usu = new Usuario();
+			usu.setId(res.getInt("id"));
+			usu.setNome(res.getString("nome"));
+			usu.setLogin(res.getString("login"));
+			usu.setSenha(res.getString("senha"));
+			return usu;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
